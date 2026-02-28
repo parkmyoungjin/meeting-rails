@@ -343,6 +343,10 @@ post '/webhooks/stripe', to: 'webhooks#stripe'
   - 관리자 진입 라우팅 보완:
     - 메인 도메인에서 상단 `관리자` 링크 클릭 시 `/admin` 404 발생 이슈 수정
     - `application` 레이아웃의 관리자 링크를 로그인 사용자의 조직 서브도메인 URL로 고정
+  - Render 배포 실패 대응:
+    - `config/database.yml` production 연결을 `DATABASE_URL` 우선 사용으로 변경
+    - `cache/queue/cable` DB도 `*_DATABASE_URL` 또는 `DATABASE_URL` fallback 사용
+    - `render.yaml`에서 DB 자동 연결 의존 제거 및 `DATABASE_URL` 수동 주입 방식으로 정리
 
 ---
 
