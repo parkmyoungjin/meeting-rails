@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rails new . -d postgresql --css tailwind --skip-git)",
+      "Bash(bundle install)",
+      "Bash(rails generate devise:install)",
+      "Bash(rails generate migration CreateOrganizations name:string subdomain:string stripe_customer_id:string active:boolean)",
+      "Bash(rails generate migration CreatePlans name:string price_cents:integer room_limit:integer stripe_price_id:string)",
+      "Bash(rails generate migration CreateSubscriptions organization:references plan:references stripe_subscription_id:string status:string current_period_end:datetime)",
+      "Bash(rails generate devise User)",
+      "Bash(rails generate migration AddOrganizationAndRoleToUsers organization:references role:integer)",
+      "Bash(rails generate migration CreateRooms organization:references floor:string name:string capacity:integer active:boolean)",
+      "Bash(rails generate migration CreateReservations room:references organization:references date:date start_time:time end_time:time organizer:string purpose:string password_digest:string)",
+      "Bash(export PATH=\"$PATH:/c/Program Files/PostgreSQL/18/bin\")",
+      "Bash(rails db:create)",
+      "Bash(DB_PASSWORD=\"dkrehafkr1!\" rails db:create)",
+      "Bash(DB_PASSWORD=\"dkrehafkr1!\" rails db:migrate)"
+    ]
+  }
+}

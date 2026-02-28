@@ -1,0 +1,43 @@
+<div class="space-y-4">
+  <% rooms.each do |room| %>
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div class="bg-gray-50 border-b px-4 py-3 flex justify-between items-center">
+        <div>
+          <span class="font-semibold text-gray-900"><%= room.name %></span>
+          <span class="ml-2 text-sm text-gray-500">정원 <%= room.capacity %>명</span>
+        </div>
+        <%= link_to "예약하기", new_reservation_path(room_id: room.id, date: date),
+            class: "text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700" %>
+      </div>
+
+      <div class="p-4">
+        <div class="flex gap-1 overflow-x-auto">
+          <% (8..20).each do |hour| %>
+            <%
+              slot_res = reservations.find do |r|
+                r.room_id == room.id &&
+                r.start_time.strftime("%H").to_i <= hour &&
+                r.end_time.strftime("%H").to_i > hour
+              end
+            %>
+            <div class="flex-shrink-0 w-16 text-center">
+              <div class="text-xs text-gray-400 mb-1"><%= "#{hour}:00" %></div>
+              <% if slot_res %>
+                <%= link_to reservation_path(slot_res),
+                    class: "block w-full h-10 bg-red-100 border border-red-300 rounded text-xs text-red-700 flex items-center justify-center overflow-hidden",
+                    title: "#{slot_res.organizer}: #{slot_res.purpose}" do %>
+                  <%= slot_res.organizer.truncate(4) %>
+                <% end %>
+              <% else %>
+                <%= link_to new_reservation_path(room_id: room.id, date: date, start_time: "#{hour}:00"),
+                    class: "block w-full h-10 bg-green-50 border border-green-200 rounded hover:bg-green-100 text-xs text-green-600 flex items-center justify-center" do %>
+                  예약
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

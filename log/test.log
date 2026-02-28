@@ -1,0 +1,980 @@
+[dotenv] Set [36mDB_PASSWORD[0m, [36mDB_USERNAME[0m, [36mSTRIPE_PRICE_BASIC[0m, [36mSTRIPE_PRICE_PRO[0m, [36mSTRIPE_SECRET_KEY[0m, [36mSTRIPE_WEBHOOK_SECRET[0m, [36mSUPER_ADMIN_PASSWORD[0m
+[dotenv] Loaded [33m.env[0m
+  [1m[35m (119.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (4.8ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+[dotenv] Set [36mDB_PASSWORD[0m, [36mDB_USERNAME[0m, [36mSTRIPE_PRICE_BASIC[0m, [36mSTRIPE_PRICE_PRO[0m, [36mSTRIPE_SECRET_KEY[0m, [36mSTRIPE_WEBHOOK_SECRET[0m, [36mSUPER_ADMIN_PASSWORD[0m
+[dotenv] Loaded [33m.env[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.6ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+[dotenv] Set [36mDB_PASSWORD[0m, [36mDB_USERNAME[0m, [36mSTRIPE_PRICE_BASIC[0m, [36mSTRIPE_PRICE_PRO[0m, [36mSTRIPE_SECRET_KEY[0m, [36mSTRIPE_WEBHOOK_SECRET[0m, [36mSUPER_ADMIN_PASSWORD[0m
+[dotenv] Loaded [33m.env[0m
+  [1m[36mActiveRecord::SchemaMigration Load (2.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6020690467885558710)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (1.6ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2026-02-28 12:59:31.485836', '2026-02-28 12:59:31.485839') RETURNING "key"[0m
+Migrating to CreateOrganizations (20260228081751)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (11.3ms)[0m  [1m[35mCREATE TABLE "organizations" ("id" bigserial primary key, "name" character varying NOT NULL, "subdomain" character varying NOT NULL, "stripe_customer_id" character varying, "active" boolean DEFAULT TRUE NOT NULL, "plan_id" bigint, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_organizations_on_subdomain" ON "organizations" ("subdomain")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE INDEX "index_organizations_on_plan_id" ON "organizations" ("plan_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260228081751') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(6020690467885558710)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6020690467885558710)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+Migrating to CreatePlans (20260228081758)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.8ms)[0m  [1m[35mCREATE TABLE "plans" ("id" bigserial primary key, "name" character varying, "price_cents" integer, "room_limit" integer, "stripe_price_id" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260228081758') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(6020690467885558710)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6020690467885558710)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+Migrating to CreateSubscriptions (20260228081804)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.5ms)[0m  [1m[35mCREATE TABLE "subscriptions" ("id" bigserial primary key, "organization_id" bigint NOT NULL, "plan_id" bigint NOT NULL, "stripe_subscription_id" character varying, "status" character varying, "current_period_end" timestamp(6), "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_364213cc3e"
+FOREIGN KEY ("organization_id")
+  REFERENCES "organizations" ("id")
+, CONSTRAINT "fk_rails_63d3df128b"
+FOREIGN KEY ("plan_id")
+  REFERENCES "plans" ("id")
+)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE INDEX "index_subscriptions_on_organization_id" ON "subscriptions" ("organization_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE INDEX "index_subscriptions_on_plan_id" ON "subscriptions" ("plan_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260228081804') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(6020690467885558710)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6020690467885558710)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+Migrating to DeviseCreateUsers (20260228082013)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.9ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp(6), "remember_created_at" timestamp(6), "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260228082013') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(6020690467885558710)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6020690467885558710)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+Migrating to AddOrganizationAndRoleToUsers (20260228082038)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "users" ADD "organization_id" bigint NOT NULL[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE INDEX "index_users_on_organization_id" ON "users" ("organization_id")[0m
+  [1m[35m (4.0ms)[0m  [1m[35mALTER TABLE "users" ADD CONSTRAINT "fk_rails_d7b9ff90af"
+FOREIGN KEY ("organization_id")
+  REFERENCES "organizations" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "users" ADD "role" integer[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260228082038') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(6020690467885558710)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6020690467885558710)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+Migrating to CreateRooms (20260228082044)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (5.3ms)[0m  [1m[35mCREATE TABLE "rooms" ("id" bigserial primary key, "organization_id" bigint NOT NULL, "floor" character varying, "name" character varying, "capacity" integer, "active" boolean DEFAULT TRUE NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_c2da7dc036"
+FOREIGN KEY ("organization_id")
+  REFERENCES "organizations" ("id")
+)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE INDEX "index_rooms_on_organization_id" ON "rooms" ("organization_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE INDEX "index_rooms_on_organization_id_and_floor" ON "rooms" ("organization_id", "floor")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260228082044') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(6020690467885558710)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6020690467885558710)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+Migrating to CreateReservations (20260228082050)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (5.6ms)[0m  [1m[35mCREATE TABLE "reservations" ("id" bigserial primary key, "room_id" bigint NOT NULL, "organization_id" bigint NOT NULL, "date" date, "start_time" time, "end_time" time, "organizer" character varying, "purpose" character varying, "password_digest" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_78d1025283"
+FOREIGN KEY ("room_id")
+  REFERENCES "rooms" ("id")
+, CONSTRAINT "fk_rails_bf8a5a02cd"
+FOREIGN KEY ("organization_id")
+  REFERENCES "organizations" ("id")
+)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE INDEX "index_reservations_on_room_id" ON "reservations" ("room_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE INDEX "index_reservations_on_organization_id" ON "reservations" ("organization_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE INDEX "index_reservations_on_room_id_and_date" ON "reservations" ("room_id", "date")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260228082050') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(6020690467885558710)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6020690467885558710)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+Migrating to AddSubscriptionUniquenessIndexes (20260228120000)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mDROP INDEX  "index_subscriptions_on_organization_id"[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_subscriptions_on_organization_id" ON "subscriptions" ("organization_id")[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_subscriptions_on_stripe_subscription_id" ON "subscriptions" ("stripe_subscription_id") WHERE stripe_subscription_id IS NOT NULL[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260228120000') RETURNING "version"[0m
+  [1m[36mTRANSACTION (1.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(6020690467885558710)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mSET search_path TO public[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO "$user", public[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mSET search_path TO public[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mSET search_path TO "$user", public[0m
+[dotenv] Set [36mDB_PASSWORD[0m, [36mDB_USERNAME[0m, [36mSTRIPE_PRICE_BASIC[0m, [36mSTRIPE_PRICE_PRO[0m, [36mSTRIPE_SECRET_KEY[0m, [36mSTRIPE_WEBHOOK_SECRET[0m, [36mSUPER_ADMIN_PASSWORD[0m
+[dotenv] Loaded [33m.env[0m
+  [1m[36mActiveRecord::InternalMetadata Load (2.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL;ALTER TABLE "organizations" DISABLE TRIGGER ALL;ALTER TABLE "subscriptions" DISABLE TRIGGER ALL;ALTER TABLE "plans" DISABLE TRIGGER ALL;ALTER TABLE "users" DISABLE TRIGGER ALL;ALTER TABLE "rooms" DISABLE TRIGGER ALL;ALTER TABLE "reservations" DISABLE TRIGGER ALL[0m
+  [1m[36mFixtures Load (5.8ms)[0m  [1m[31mDELETE FROM "organizations";
+DELETE FROM "plans";
+DELETE FROM "users";
+INSERT INTO "organizations" ("id", "name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES (373481379, 'Demo Org', 'demo', NULL, TRUE, 221168073, '2026-02-28 12:59:47.847831', '2026-02-28 12:59:47.847831');
+INSERT INTO "plans" ("id", "name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES (221168073, 'free', 0, 2, NULL, '2026-02-28 12:59:48.005132', '2026-02-28 12:59:48.005132'), (276395349, 'basic', 29000, 10, 'price_basic_test', '2026-02-28 12:59:48.005132', '2026-02-28 12:59:48.005132');
+INSERT INTO "users" ("id", "email", "encrypted_password", "created_at", "updated_at", "organization_id", "role") VALUES (135138680, 'admin@example.com', '$2a$04$3Lut6IGS0I3bV7Kn6EBZAu0zNVUD0J8yU0y6MWJSjtYwlW2Khq.qq', '2026-02-28 12:59:48.007351', '2026-02-28 12:59:48.007351', 373481379, 1)[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35m (2.7ms)[0m  [1m[35mALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL;ALTER TABLE "organizations" ENABLE TRIGGER ALL;ALTER TABLE "subscriptions" ENABLE TRIGGER ALL;ALTER TABLE "plans" ENABLE TRIGGER ALL;ALTER TABLE "users" ENABLE TRIGGER ALL;ALTER TABLE "rooms" ENABLE TRIGGER ALL;ALTER TABLE "reservations" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (39.3ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_catalog.pg_constraint SET convalidated=false WHERE conname = ''%1$I'' AND connamespace::regnamespace = ''%2$I''::regnamespace; ALTER TABLE %2$I.%3$I VALIDATE CONSTRAINT %1$I;',
+    constraint_name,
+    table_schema,
+    table_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------------------------
+WebhooksControllerTest: test_webhook_endpoint_accepts_request_without_browser_user_agent
+----------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+--------------------------------------------------------------------------------------------------
+WebhooksControllerTest: test_checkout.session.completed_updates_organization_plan_and_subscription
+--------------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "free_test"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.4ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "free_test"], ["price_cents", 0], ["room_limit", 2], ["stripe_price_id", nil], ["created_at", "2026-02-28 12:59:48.426572"], ["updated_at", "2026-02-28 12:59:48.426572"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "basic_test"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.3ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "basic_test"], ["price_cents", 29000], ["room_limit", 10], ["stripe_price_id", "price_basic_test"], ["created_at", "2026-02-28 12:59:48.430060"], ["updated_at", "2026-02-28 12:59:48.430060"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "organizations" WHERE "organizations"."subdomain" = $1 LIMIT $2[0m  [["subdomain", "webhook-org"], ["LIMIT", 1]]
+  [1m[36mOrganization Create (0.5ms)[0m  [1m[32mINSERT INTO "organizations" ("name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["name", "Webhook Org"], ["subdomain", "webhook-org"], ["stripe_customer_id", nil], ["active", true], ["plan_id", 276395350], ["created_at", "2026-02-28 12:59:48.481070"], ["updated_at", "2026-02-28 12:59:48.481070"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------------------------------
+WebhooksControllerTest: test_customer.subscription.updated_synchronizes_plan_from_stripe_price
+----------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "free_test2"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.4ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "free_test2"], ["price_cents", 0], ["room_limit", 2], ["stripe_price_id", nil], ["created_at", "2026-02-28 12:59:48.487647"], ["updated_at", "2026-02-28 12:59:48.487647"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "pro_test2"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.3ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "pro_test2"], ["price_cents", 99000], ["room_limit", nil], ["stripe_price_id", "price_pro_test"], ["created_at", "2026-02-28 12:59:48.491334"], ["updated_at", "2026-02-28 12:59:48.491334"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "organizations" WHERE "organizations"."subdomain" = $1 LIMIT $2[0m  [["subdomain", "webhook-org-2"], ["LIMIT", 1]]
+  [1m[36mOrganization Create (0.3ms)[0m  [1m[32mINSERT INTO "organizations" ("name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["name", "Webhook Org 2"], ["subdomain", "webhook-org-2"], ["stripe_customer_id", nil], ["active", true], ["plan_id", 276395352], ["created_at", "2026-02-28 12:59:48.494370"], ["updated_at", "2026-02-28 12:59:48.494370"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSubscription Create (2.5ms)[0m  [1m[32mINSERT INTO "subscriptions" ("organization_id", "plan_id", "stripe_subscription_id", "status", "current_period_end", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["organization_id", 373481381], ["plan_id", 276395352], ["stripe_subscription_id", "sub_update_123"], ["status", "active"], ["current_period_end", "2026-03-28 12:59:48.495963"], ["created_at", "2026-02-28 12:59:48.543308"], ["updated_at", "2026-02-28 12:59:48.543308"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mSubscription Load (0.5ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481381], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+-------------------------------------------------------------------------
+WebhooksControllerTest: test_invalid_stripe_signature_returns_bad_request
+-------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------------------------------------------
+Admin::SubscriptionsControllerTest: test_show_reconciles_checkout_session_when_session_id_is_provided
+-----------------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 135138680], ["LIMIT", 1]]
+  [1m[36mOrganization Load (0.4ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481379], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.2ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 276395349], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+[dotenv] Set [36mDB_PASSWORD[0m, [36mDB_USERNAME[0m, [36mSTRIPE_PRICE_BASIC[0m, [36mSTRIPE_PRICE_PRO[0m, [36mSTRIPE_SECRET_KEY[0m, [36mSTRIPE_WEBHOOK_SECRET[0m, [36mSUPER_ADMIN_PASSWORD[0m
+[dotenv] Loaded [33m.env[0m
+  [1m[36mActiveRecord::InternalMetadata Load (2.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+[dotenv] Set [36mDB_PASSWORD[0m, [36mDB_USERNAME[0m, [36mSTRIPE_PRICE_BASIC[0m, [36mSTRIPE_PRICE_PRO[0m, [36mSTRIPE_SECRET_KEY[0m, [36mSTRIPE_WEBHOOK_SECRET[0m, [36mSUPER_ADMIN_PASSWORD[0m
+[dotenv] Loaded [33m.env[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.9ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (2.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL;ALTER TABLE "organizations" DISABLE TRIGGER ALL;ALTER TABLE "subscriptions" DISABLE TRIGGER ALL;ALTER TABLE "plans" DISABLE TRIGGER ALL;ALTER TABLE "users" DISABLE TRIGGER ALL;ALTER TABLE "rooms" DISABLE TRIGGER ALL;ALTER TABLE "reservations" DISABLE TRIGGER ALL[0m
+  [1m[36mFixtures Load (4.1ms)[0m  [1m[31mDELETE FROM "organizations";
+DELETE FROM "plans";
+DELETE FROM "users";
+INSERT INTO "organizations" ("id", "name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES (373481379, 'Demo Org', 'demo', NULL, TRUE, 221168073, '2026-02-28 13:09:57.872925', '2026-02-28 13:09:57.872925');
+INSERT INTO "plans" ("id", "name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES (221168073, 'free', 0, 2, NULL, '2026-02-28 13:09:58.031016', '2026-02-28 13:09:58.031016'), (276395349, 'basic', 29000, 10, 'price_basic_test', '2026-02-28 13:09:58.031016', '2026-02-28 13:09:58.031016');
+INSERT INTO "users" ("id", "email", "encrypted_password", "created_at", "updated_at", "organization_id", "role") VALUES (135138680, 'admin@example.com', '$2a$04$44.fVLzEGY5KaKy1bKbzKu3cFuNuhxBMQct7H.v7.s/14YWMpnb3m', '2026-02-28 13:09:58.032207', '2026-02-28 13:09:58.032207', 373481379, 1)[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35m (9.8ms)[0m  [1m[35mALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL;ALTER TABLE "organizations" ENABLE TRIGGER ALL;ALTER TABLE "subscriptions" ENABLE TRIGGER ALL;ALTER TABLE "plans" ENABLE TRIGGER ALL;ALTER TABLE "users" ENABLE TRIGGER ALL;ALTER TABLE "rooms" ENABLE TRIGGER ALL;ALTER TABLE "reservations" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (18.8ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_catalog.pg_constraint SET convalidated=false WHERE conname = ''%1$I'' AND connamespace::regnamespace = ''%2$I''::regnamespace; ALTER TABLE %2$I.%3$I VALIDATE CONSTRAINT %1$I;',
+    constraint_name,
+    table_schema,
+    table_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-------------------------------------------------------------------------
+WebhooksControllerTest: test_invalid_stripe_signature_returns_bad_request
+-------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:09:58 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+Completed 400 Bad Request in 29ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------------------------
+WebhooksControllerTest: test_webhook_endpoint_accepts_request_without_browser_user_agent
+----------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:09:58 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+Completed 200 OK in 1ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+--------------------------------------------------------------------------------------------------
+WebhooksControllerTest: test_checkout.session.completed_updates_organization_plan_and_subscription
+--------------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "free_test"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.4ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "free_test"], ["price_cents", 0], ["room_limit", 2], ["stripe_price_id", nil], ["created_at", "2026-02-28 13:09:58.449738"], ["updated_at", "2026-02-28 13:09:58.449738"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "basic_test"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.3ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "basic_test"], ["price_cents", 29000], ["room_limit", 10], ["stripe_price_id", "price_basic_test"], ["created_at", "2026-02-28 13:09:58.452710"], ["updated_at", "2026-02-28 13:09:58.452710"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "organizations" WHERE "organizations"."subdomain" = $1 LIMIT $2[0m  [["subdomain", "webhook-org"], ["LIMIT", 1]]
+  [1m[36mOrganization Create (0.5ms)[0m  [1m[32mINSERT INTO "organizations" ("name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["name", "Webhook Org"], ["subdomain", "webhook-org"], ["stripe_customer_id", nil], ["active", true], ["plan_id", 276395350], ["created_at", "2026-02-28 13:09:58.465300"], ["updated_at", "2026-02-28 13:09:58.465300"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:09:58 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+  [1m[36mOrganization Load (0.6ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481380], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.4ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 276395351], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Update (0.4ms)[0m  [1m[33mUPDATE "organizations" SET "plan_id" = $1, "updated_at" = $2 WHERE "organizations"."id" = $3[0m  [["plan_id", 276395351], ["updated_at", "2026-02-28 13:09:58.482520"], ["id", 373481380]]
+  [1m[36mSubscription Load (0.9ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481380], ["LIMIT", 1]]
+  [1m[36mSubscription Create (0.6ms)[0m  [1m[32mINSERT INTO "subscriptions" ("organization_id", "plan_id", "stripe_subscription_id", "status", "current_period_end", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["organization_id", 373481380], ["plan_id", 276395351], ["stripe_subscription_id", "sub_123"], ["status", "active"], ["current_period_end", "2026-03-07 13:09:58"], ["created_at", "2026-02-28 13:09:58.497093"], ["updated_at", "2026-02-28 13:09:58.497093"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 31ms (Views: 0.1ms | ActiveRecord: 12.7ms (5 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mOrganization Load (0.2ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481380], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481380], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.3ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------------------------------
+WebhooksControllerTest: test_customer.subscription.updated_synchronizes_plan_from_stripe_price
+----------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "free_test2"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.2ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "free_test2"], ["price_cents", 0], ["room_limit", 2], ["stripe_price_id", nil], ["created_at", "2026-02-28 13:09:58.505925"], ["updated_at", "2026-02-28 13:09:58.505925"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "pro_test2"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.2ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "pro_test2"], ["price_cents", 99000], ["room_limit", nil], ["stripe_price_id", "price_pro_test"], ["created_at", "2026-02-28 13:09:58.507695"], ["updated_at", "2026-02-28 13:09:58.507695"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "organizations" WHERE "organizations"."subdomain" = $1 LIMIT $2[0m  [["subdomain", "webhook-org-2"], ["LIMIT", 1]]
+  [1m[36mOrganization Create (0.2ms)[0m  [1m[32mINSERT INTO "organizations" ("name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["name", "Webhook Org 2"], ["subdomain", "webhook-org-2"], ["stripe_customer_id", nil], ["active", true], ["plan_id", 276395352], ["created_at", "2026-02-28 13:09:58.509440"], ["updated_at", "2026-02-28 13:09:58.509440"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSubscription Create (0.5ms)[0m  [1m[32mINSERT INTO "subscriptions" ("organization_id", "plan_id", "stripe_subscription_id", "status", "current_period_end", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["organization_id", 373481381], ["plan_id", 276395352], ["stripe_subscription_id", "sub_update_123"], ["status", "active"], ["current_period_end", "2026-03-28 13:09:58.510307"], ["created_at", "2026-02-28 13:09:58.510838"], ["updated_at", "2026-02-28 13:09:58.510838"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mSubscription Load (0.1ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481381], ["LIMIT", 1]]
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:09:58 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+  [1m[36mSubscription Load (0.5ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."stripe_subscription_id" = $1 LIMIT $2[0m  [["stripe_subscription_id", "sub_update_123"], ["LIMIT", 1]]
+  [1m[36mOrganization Load (0.2ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481381], ["LIMIT", 1]]
+  [1m[36mCACHE Subscription Load (0.0ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."stripe_subscription_id" = $1 LIMIT $2[0m  [["stripe_subscription_id", "sub_update_123"], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.3ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."stripe_price_id" = $1 LIMIT $2[0m  [["stripe_price_id", "price_pro_test"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSubscription Update (0.6ms)[0m  [1m[33mUPDATE "subscriptions" SET "plan_id" = $1, "current_period_end" = $2, "updated_at" = $3 WHERE "subscriptions"."id" = $4[0m  [["plan_id", 276395353], ["current_period_end", "2026-04-28 13:09:58"], ["updated_at", "2026-02-28 13:09:58.517219"], ["id", 3]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mOrganization Load (0.2ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481381], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Update (0.7ms)[0m  [1m[33mUPDATE "organizations" SET "plan_id" = $1, "updated_at" = $2 WHERE "organizations"."id" = $3[0m  [["plan_id", 276395353], ["updated_at", "2026-02-28 13:09:58.519591"], ["id", 373481381]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 8ms (Views: 0.1ms | ActiveRecord: 2.9ms (7 queries, 1 cached) | GC: 0.0ms)
+  [1m[36mOrganization Load (0.2ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481381], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481381], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------------------------------------------
+Admin::SubscriptionsControllerTest: test_show_reconciles_checkout_session_when_session_id_is_provided
+-----------------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 135138680], ["LIMIT", 1]]
+  [1m[36mOrganization Load (0.4ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481379], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.3ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 276395349], ["LIMIT", 1]]
+Started GET "/admin/subscription?session_id=cs_test_123" for 127.0.0.1 at 2026-02-28 22:09:58 +0900
+Processing by Admin::SubscriptionsController#show as HTML
+  Parameters: {"session_id" => "cs_test_123"}
+  [1m[36mOrganization Load (0.6ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."subdomain" = $1 AND "organizations"."active" = $2 LIMIT $3[0m  [["subdomain", "demo"], ["active", true], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.4ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 276395349], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Update (0.7ms)[0m  [1m[33mUPDATE "organizations" SET "plan_id" = $1, "updated_at" = $2 WHERE "organizations"."id" = $3[0m  [["plan_id", 276395349], ["updated_at", "2026-02-28 13:09:58.546558"], ["id", 373481379]]
+  [1m[36mSubscription Load (0.3ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481379], ["LIMIT", 1]]
+  [1m[36mSubscription Create (0.4ms)[0m  [1m[32mINSERT INTO "subscriptions" ("organization_id", "plan_id", "stripe_subscription_id", "status", "current_period_end", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["organization_id", 373481379], ["plan_id", 276395349], ["stripe_subscription_id", "sub_reconcile_123"], ["status", "active"], ["current_period_end", "2026-03-28 13:09:58"], ["created_at", "2026-02-28 13:09:58.549014"], ["updated_at", "2026-02-28 13:09:58.549014"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  Rendering layout layouts/admin.html.erb
+  Rendering admin/subscriptions/show.html.erb within layouts/admin
+  Rendered admin/subscriptions/show.html.erb within layouts/admin (Duration: 9.9ms | GC: 0.0ms)
+  Rendered layout layouts/admin.html.erb (Duration: 10.2ms | GC: 0.0ms)
+Completed 500 Internal Server Error in 119ms (ActiveRecord: 2.8ms (5 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+[dotenv] Set [36mDB_PASSWORD[0m, [36mDB_USERNAME[0m, [36mSTRIPE_PRICE_BASIC[0m, [36mSTRIPE_PRICE_PRO[0m, [36mSTRIPE_SECRET_KEY[0m, [36mSTRIPE_WEBHOOK_SECRET[0m, [36mSUPER_ADMIN_PASSWORD[0m
+[dotenv] Loaded [33m.env[0m
+  [1m[36mActiveRecord::InternalMetadata Load (2.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (1.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL;ALTER TABLE "organizations" DISABLE TRIGGER ALL;ALTER TABLE "subscriptions" DISABLE TRIGGER ALL;ALTER TABLE "plans" DISABLE TRIGGER ALL;ALTER TABLE "users" DISABLE TRIGGER ALL;ALTER TABLE "rooms" DISABLE TRIGGER ALL;ALTER TABLE "reservations" DISABLE TRIGGER ALL[0m
+  [1m[36mFixtures Load (5.5ms)[0m  [1m[31mDELETE FROM "organizations";
+DELETE FROM "plans";
+DELETE FROM "users";
+INSERT INTO "organizations" ("id", "name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES (373481379, 'Demo Org', 'demo', NULL, TRUE, 221168073, '2026-02-28 13:10:38.211464', '2026-02-28 13:10:38.211464');
+INSERT INTO "plans" ("id", "name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES (221168073, 'free', 0, 2, NULL, '2026-02-28 13:10:38.344130', '2026-02-28 13:10:38.344130'), (276395349, 'basic', 29000, 10, 'price_basic_test', '2026-02-28 13:10:38.344130', '2026-02-28 13:10:38.344130');
+INSERT INTO "users" ("id", "email", "encrypted_password", "created_at", "updated_at", "organization_id", "role") VALUES (135138680, 'admin@example.com', '$2a$04$CsQ95hqoOaSqqVFw7b3tSez74tmR6oVSPYpR45bhReSpwoo0nXFGG', '2026-02-28 13:10:38.345755', '2026-02-28 13:10:38.345755', 373481379, 1)[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35m (1.6ms)[0m  [1m[35mALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL;ALTER TABLE "organizations" ENABLE TRIGGER ALL;ALTER TABLE "subscriptions" ENABLE TRIGGER ALL;ALTER TABLE "plans" ENABLE TRIGGER ALL;ALTER TABLE "users" ENABLE TRIGGER ALL;ALTER TABLE "rooms" ENABLE TRIGGER ALL;ALTER TABLE "reservations" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (13.7ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_catalog.pg_constraint SET convalidated=false WHERE conname = ''%1$I'' AND connamespace::regnamespace = ''%2$I''::regnamespace; ALTER TABLE %2$I.%3$I VALIDATE CONSTRAINT %1$I;',
+    constraint_name,
+    table_schema,
+    table_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------------------------------------------
+Admin::SubscriptionsControllerTest: test_show_reconciles_checkout_session_when_session_id_is_provided
+-----------------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 135138680], ["LIMIT", 1]]
+  [1m[36mOrganization Load (0.6ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481379], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.6ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 276395349], ["LIMIT", 1]]
+Started GET "/admin/subscription?session_id=cs_test_123" for 127.0.0.1 at 2026-02-28 22:10:38 +0900
+Processing by Admin::SubscriptionsController#show as HTML
+  Parameters: {"session_id" => "cs_test_123"}
+  [1m[36mOrganization Load (0.7ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."subdomain" = $1 AND "organizations"."active" = $2 LIMIT $3[0m  [["subdomain", "demo"], ["active", true], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.4ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 276395349], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Update (0.6ms)[0m  [1m[33mUPDATE "organizations" SET "plan_id" = $1, "updated_at" = $2 WHERE "organizations"."id" = $3[0m  [["plan_id", 276395349], ["updated_at", "2026-02-28 13:10:38.713411"], ["id", 373481379]]
+  [1m[36mSubscription Load (1.0ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481379], ["LIMIT", 1]]
+  [1m[36mSubscription Create (0.8ms)[0m  [1m[32mINSERT INTO "subscriptions" ("organization_id", "plan_id", "stripe_subscription_id", "status", "current_period_end", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["organization_id", 373481379], ["plan_id", 276395349], ["stripe_subscription_id", "sub_reconcile_123"], ["status", "active"], ["current_period_end", "2026-03-28 13:10:38"], ["created_at", "2026-02-28 13:10:38.728375"], ["updated_at", "2026-02-28 13:10:38.728375"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  Rendering layout layouts/admin.html.erb
+  Rendering admin/subscriptions/show.html.erb within layouts/admin
+  [1m[36mPlan Load (0.5ms)[0m  [1m[34mSELECT "plans".* FROM "plans" ORDER BY "plans"."price_cents" ASC[0m
+  Rendered admin/subscriptions/show.html.erb within layouts/admin (Duration: 30.5ms | GC: 0.0ms)
+  Rendered layout layouts/admin.html.erb (Duration: 131.8ms | GC: 0.0ms)
+Completed 200 OK in 219ms (Views: 139.8ms | ActiveRecord: 8.3ms (6 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mOrganization Load (0.4ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481379], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481379], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.3ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------------------------------
+WebhooksControllerTest: test_customer.subscription.updated_synchronizes_plan_from_stripe_price
+----------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "free_test2"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.4ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "free_test2"], ["price_cents", 0], ["room_limit", 2], ["stripe_price_id", nil], ["created_at", "2026-02-28 13:10:38.900047"], ["updated_at", "2026-02-28 13:10:38.900047"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "pro_test2"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.3ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "pro_test2"], ["price_cents", 99000], ["room_limit", nil], ["stripe_price_id", "price_pro_test"], ["created_at", "2026-02-28 13:10:38.902591"], ["updated_at", "2026-02-28 13:10:38.902591"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "organizations" WHERE "organizations"."subdomain" = $1 LIMIT $2[0m  [["subdomain", "webhook-org-2"], ["LIMIT", 1]]
+  [1m[36mOrganization Create (0.5ms)[0m  [1m[32mINSERT INTO "organizations" ("name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["name", "Webhook Org 2"], ["subdomain", "webhook-org-2"], ["stripe_customer_id", nil], ["active", true], ["plan_id", 276395350], ["created_at", "2026-02-28 13:10:38.905278"], ["updated_at", "2026-02-28 13:10:38.905278"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSubscription Create (0.6ms)[0m  [1m[32mINSERT INTO "subscriptions" ("organization_id", "plan_id", "stripe_subscription_id", "status", "current_period_end", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["organization_id", 373481380], ["plan_id", 276395350], ["stripe_subscription_id", "sub_update_123"], ["status", "active"], ["current_period_end", "2026-03-28 13:10:38.906688"], ["created_at", "2026-02-28 13:10:38.907349"], ["updated_at", "2026-02-28 13:10:38.907349"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481380], ["LIMIT", 1]]
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:10:38 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+  [1m[36mSubscription Load (0.4ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."stripe_subscription_id" = $1 LIMIT $2[0m  [["stripe_subscription_id", "sub_update_123"], ["LIMIT", 1]]
+  [1m[36mOrganization Load (0.2ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481380], ["LIMIT", 1]]
+  [1m[36mCACHE Subscription Load (0.0ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."stripe_subscription_id" = $1 LIMIT $2[0m  [["stripe_subscription_id", "sub_update_123"], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.3ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."stripe_price_id" = $1 LIMIT $2[0m  [["stripe_price_id", "price_pro_test"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSubscription Update (0.6ms)[0m  [1m[33mUPDATE "subscriptions" SET "plan_id" = $1, "current_period_end" = $2, "updated_at" = $3 WHERE "subscriptions"."id" = $4[0m  [["plan_id", 276395351], ["current_period_end", "2026-04-28 13:10:38"], ["updated_at", "2026-02-28 13:10:38.915949"], ["id", 6]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mOrganization Load (0.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481380], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Update (0.4ms)[0m  [1m[33mUPDATE "organizations" SET "plan_id" = $1, "updated_at" = $2 WHERE "organizations"."id" = $3[0m  [["plan_id", 276395351], ["updated_at", "2026-02-28 13:10:38.918007"], ["id", 373481380]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 2.4ms (7 queries, 1 cached) | GC: 0.0ms)
+  [1m[36mOrganization Load (0.2ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481380], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481380], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+--------------------------------------------------------------------------------------------------
+WebhooksControllerTest: test_checkout.session.completed_updates_organization_plan_and_subscription
+--------------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "free_test"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.2ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "free_test"], ["price_cents", 0], ["room_limit", 2], ["stripe_price_id", nil], ["created_at", "2026-02-28 13:10:38.924973"], ["updated_at", "2026-02-28 13:10:38.924973"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "basic_test"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.2ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "basic_test"], ["price_cents", 29000], ["room_limit", 10], ["stripe_price_id", "price_basic_test"], ["created_at", "2026-02-28 13:10:38.926797"], ["updated_at", "2026-02-28 13:10:38.926797"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "organizations" WHERE "organizations"."subdomain" = $1 LIMIT $2[0m  [["subdomain", "webhook-org"], ["LIMIT", 1]]
+  [1m[36mOrganization Create (0.3ms)[0m  [1m[32mINSERT INTO "organizations" ("name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["name", "Webhook Org"], ["subdomain", "webhook-org"], ["stripe_customer_id", nil], ["active", true], ["plan_id", 276395352], ["created_at", "2026-02-28 13:10:38.928740"], ["updated_at", "2026-02-28 13:10:38.928740"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:10:38 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+  [1m[36mOrganization Load (0.2ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481381], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.2ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 276395353], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Update (0.5ms)[0m  [1m[33mUPDATE "organizations" SET "plan_id" = $1, "updated_at" = $2 WHERE "organizations"."id" = $3[0m  [["plan_id", 276395353], ["updated_at", "2026-02-28 13:10:38.932719"], ["id", 373481381]]
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481381], ["LIMIT", 1]]
+  [1m[36mSubscription Create (0.3ms)[0m  [1m[32mINSERT INTO "subscriptions" ("organization_id", "plan_id", "stripe_subscription_id", "status", "current_period_end", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["organization_id", 373481381], ["plan_id", 276395353], ["stripe_subscription_id", "sub_123"], ["status", "active"], ["current_period_end", "2026-03-07 13:10:38"], ["created_at", "2026-02-28 13:10:38.934559"], ["updated_at", "2026-02-28 13:10:38.934559"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 5ms (Views: 0.1ms | ActiveRecord: 1.6ms (5 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mOrganization Load (0.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481381], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.3ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481381], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------------------------
+WebhooksControllerTest: test_webhook_endpoint_accepts_request_without_browser_user_agent
+----------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:10:38 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+-------------------------------------------------------------------------
+WebhooksControllerTest: test_invalid_stripe_signature_returns_bad_request
+-------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:10:38 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+Completed 400 Bad Request in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+[dotenv] Set [36mDB_PASSWORD[0m, [36mDB_USERNAME[0m, [36mSTRIPE_PRICE_BASIC[0m, [36mSTRIPE_PRICE_PRO[0m, [36mSTRIPE_SECRET_KEY[0m, [36mSTRIPE_WEBHOOK_SECRET[0m, [36mSUPER_ADMIN_PASSWORD[0m
+[dotenv] Loaded [33m.env[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.7ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL;ALTER TABLE "organizations" DISABLE TRIGGER ALL;ALTER TABLE "subscriptions" DISABLE TRIGGER ALL;ALTER TABLE "plans" DISABLE TRIGGER ALL;ALTER TABLE "users" DISABLE TRIGGER ALL;ALTER TABLE "rooms" DISABLE TRIGGER ALL;ALTER TABLE "reservations" DISABLE TRIGGER ALL[0m
+  [1m[36mFixtures Load (4.5ms)[0m  [1m[31mDELETE FROM "organizations";
+DELETE FROM "plans";
+DELETE FROM "users";
+INSERT INTO "organizations" ("id", "name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES (373481379, 'Demo Org', 'demo', NULL, TRUE, 221168073, '2026-02-28 13:10:51.446206', '2026-02-28 13:10:51.446206');
+INSERT INTO "plans" ("id", "name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES (221168073, 'free', 0, 2, NULL, '2026-02-28 13:10:51.580391', '2026-02-28 13:10:51.580391'), (276395349, 'basic', 29000, 10, 'price_basic_test', '2026-02-28 13:10:51.580391', '2026-02-28 13:10:51.580391');
+INSERT INTO "users" ("id", "email", "encrypted_password", "created_at", "updated_at", "organization_id", "role") VALUES (135138680, 'admin@example.com', '$2a$04$uMZ3JBi6GWq94gPcv19tEu55H28U0GnajPXxwKtWQ/KhPT2zuLysW', '2026-02-28 13:10:51.581525', '2026-02-28 13:10:51.581525', 373481379, 1)[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL;ALTER TABLE "organizations" ENABLE TRIGGER ALL;ALTER TABLE "subscriptions" ENABLE TRIGGER ALL;ALTER TABLE "plans" ENABLE TRIGGER ALL;ALTER TABLE "users" ENABLE TRIGGER ALL;ALTER TABLE "rooms" ENABLE TRIGGER ALL;ALTER TABLE "reservations" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (13.6ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_catalog.pg_constraint SET convalidated=false WHERE conname = ''%1$I'' AND connamespace::regnamespace = ''%2$I''::regnamespace; ALTER TABLE %2$I.%3$I VALIDATE CONSTRAINT %1$I;',
+    constraint_name,
+    table_schema,
+    table_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+--------------------------------------------------------------------------------------------------
+WebhooksControllerTest: test_checkout.session.completed_updates_organization_plan_and_subscription
+--------------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "free_test"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.4ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "free_test"], ["price_cents", 0], ["room_limit", 2], ["stripe_price_id", nil], ["created_at", "2026-02-28 13:10:51.720187"], ["updated_at", "2026-02-28 13:10:51.720187"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "basic_test"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.2ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "basic_test"], ["price_cents", 29000], ["room_limit", 10], ["stripe_price_id", "price_basic_test"], ["created_at", "2026-02-28 13:10:51.724305"], ["updated_at", "2026-02-28 13:10:51.724305"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "organizations" WHERE "organizations"."subdomain" = $1 LIMIT $2[0m  [["subdomain", "webhook-org"], ["LIMIT", 1]]
+  [1m[36mOrganization Create (0.4ms)[0m  [1m[32mINSERT INTO "organizations" ("name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["name", "Webhook Org"], ["subdomain", "webhook-org"], ["stripe_customer_id", nil], ["active", true], ["plan_id", 276395350], ["created_at", "2026-02-28 13:10:51.737613"], ["updated_at", "2026-02-28 13:10:51.737613"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:10:51 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+  [1m[36mOrganization Load (0.6ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481380], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.3ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 276395351], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Update (0.4ms)[0m  [1m[33mUPDATE "organizations" SET "plan_id" = $1, "updated_at" = $2 WHERE "organizations"."id" = $3[0m  [["plan_id", 276395351], ["updated_at", "2026-02-28 13:10:51.923683"], ["id", 373481380]]
+  [1m[36mSubscription Load (0.9ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481380], ["LIMIT", 1]]
+  [1m[36mSubscription Create (0.8ms)[0m  [1m[32mINSERT INTO "subscriptions" ("organization_id", "plan_id", "stripe_subscription_id", "status", "current_period_end", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["organization_id", 373481380], ["plan_id", 276395351], ["stripe_subscription_id", "sub_123"], ["status", "active"], ["current_period_end", "2026-03-07 13:10:51"], ["created_at", "2026-02-28 13:10:51.937939"], ["updated_at", "2026-02-28 13:10:51.937939"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 49ms (Views: 0.2ms | ActiveRecord: 7.3ms (5 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mOrganization Load (0.3ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481380], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.3ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481380], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.3ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------------------------------
+WebhooksControllerTest: test_customer.subscription.updated_synchronizes_plan_from_stripe_price
+----------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "free_test2"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.2ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "free_test2"], ["price_cents", 0], ["room_limit", 2], ["stripe_price_id", nil], ["created_at", "2026-02-28 13:10:51.958702"], ["updated_at", "2026-02-28 13:10:51.958702"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "pro_test2"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.2ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "pro_test2"], ["price_cents", 99000], ["room_limit", nil], ["stripe_price_id", "price_pro_test"], ["created_at", "2026-02-28 13:10:51.960602"], ["updated_at", "2026-02-28 13:10:51.960602"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "organizations" WHERE "organizations"."subdomain" = $1 LIMIT $2[0m  [["subdomain", "webhook-org-2"], ["LIMIT", 1]]
+  [1m[36mOrganization Create (0.2ms)[0m  [1m[32mINSERT INTO "organizations" ("name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["name", "Webhook Org 2"], ["subdomain", "webhook-org-2"], ["stripe_customer_id", nil], ["active", true], ["plan_id", 276395352], ["created_at", "2026-02-28 13:10:51.962746"], ["updated_at", "2026-02-28 13:10:51.962746"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSubscription Create (0.5ms)[0m  [1m[32mINSERT INTO "subscriptions" ("organization_id", "plan_id", "stripe_subscription_id", "status", "current_period_end", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["organization_id", 373481381], ["plan_id", 276395352], ["stripe_subscription_id", "sub_update_123"], ["status", "active"], ["current_period_end", "2026-03-28 13:10:51.963687"], ["created_at", "2026-02-28 13:10:51.964188"], ["updated_at", "2026-02-28 13:10:51.964188"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481381], ["LIMIT", 1]]
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:10:51 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+  [1m[36mSubscription Load (0.4ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."stripe_subscription_id" = $1 LIMIT $2[0m  [["stripe_subscription_id", "sub_update_123"], ["LIMIT", 1]]
+  [1m[36mOrganization Load (0.3ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481381], ["LIMIT", 1]]
+  [1m[36mCACHE Subscription Load (0.0ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."stripe_subscription_id" = $1 LIMIT $2[0m  [["stripe_subscription_id", "sub_update_123"], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.3ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."stripe_price_id" = $1 LIMIT $2[0m  [["stripe_price_id", "price_pro_test"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSubscription Update (0.6ms)[0m  [1m[33mUPDATE "subscriptions" SET "plan_id" = $1, "current_period_end" = $2, "updated_at" = $3 WHERE "subscriptions"."id" = $4[0m  [["plan_id", 276395353], ["current_period_end", "2026-04-28 13:10:51"], ["updated_at", "2026-02-28 13:10:51.970451"], ["id", 9]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mOrganization Load (0.2ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481381], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Update (0.4ms)[0m  [1m[33mUPDATE "organizations" SET "plan_id" = $1, "updated_at" = $2 WHERE "organizations"."id" = $3[0m  [["plan_id", 276395353], ["updated_at", "2026-02-28 13:10:51.972564"], ["id", 373481381]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 2.5ms (7 queries, 1 cached) | GC: 0.0ms)
+  [1m[36mOrganization Load (0.2ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481381], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481381], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------------------------
+WebhooksControllerTest: test_webhook_endpoint_accepts_request_without_browser_user_agent
+----------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:10:51 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-------------------------------------------------------------------------
+WebhooksControllerTest: test_invalid_stripe_signature_returns_bad_request
+-------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:10:51 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+Completed 400 Bad Request in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------------------------------------------
+Admin::SubscriptionsControllerTest: test_show_reconciles_checkout_session_when_session_id_is_provided
+-----------------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 135138680], ["LIMIT", 1]]
+  [1m[36mOrganization Load (0.3ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481379], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.2ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 276395349], ["LIMIT", 1]]
+Started GET "/admin/subscription?session_id=cs_test_123" for 127.0.0.1 at 2026-02-28 22:10:51 +0900
+Processing by Admin::SubscriptionsController#show as HTML
+  Parameters: {"session_id" => "cs_test_123"}
+  [1m[36mOrganization Load (0.5ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."subdomain" = $1 AND "organizations"."active" = $2 LIMIT $3[0m  [["subdomain", "demo"], ["active", true], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.3ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 276395349], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Update (0.5ms)[0m  [1m[33mUPDATE "organizations" SET "plan_id" = $1, "updated_at" = $2 WHERE "organizations"."id" = $3[0m  [["plan_id", 276395349], ["updated_at", "2026-02-28 13:10:52.001992"], ["id", 373481379]]
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481379], ["LIMIT", 1]]
+  [1m[36mSubscription Create (0.3ms)[0m  [1m[32mINSERT INTO "subscriptions" ("organization_id", "plan_id", "stripe_subscription_id", "status", "current_period_end", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["organization_id", 373481379], ["plan_id", 276395349], ["stripe_subscription_id", "sub_reconcile_123"], ["status", "active"], ["current_period_end", "2026-03-28 13:10:51"], ["created_at", "2026-02-28 13:10:52.003962"], ["updated_at", "2026-02-28 13:10:52.003962"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  Rendering layout layouts/admin.html.erb
+  Rendering admin/subscriptions/show.html.erb within layouts/admin
+  [1m[36mPlan Load (0.4ms)[0m  [1m[34mSELECT "plans".* FROM "plans" ORDER BY "plans"."price_cents" ASC[0m
+  Rendered admin/subscriptions/show.html.erb within layouts/admin (Duration: 4.4ms | GC: 0.0ms)
+  Rendered layout layouts/admin.html.erb (Duration: 22.9ms | GC: 0.0ms)
+Completed 200 OK in 48ms (Views: 27.6ms | ActiveRecord: 2.4ms (6 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mOrganization Load (0.3ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481379], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.3ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481379], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."id" = $1 LIMIT $2[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+[dotenv] Set [36mDB_PASSWORD[0m, [36mDB_USERNAME[0m, [36mSTRIPE_PRICE_BASIC[0m, [36mSTRIPE_PRICE_PRO[0m, [36mSTRIPE_SECRET_KEY[0m, [36mSTRIPE_WEBHOOK_SECRET[0m, [36mSUPER_ADMIN_PASSWORD[0m
+[dotenv] Loaded [33m.env[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.9ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (8.7ms)[0m  [1m[35mALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL;ALTER TABLE "organizations" DISABLE TRIGGER ALL;ALTER TABLE "subscriptions" DISABLE TRIGGER ALL;ALTER TABLE "plans" DISABLE TRIGGER ALL;ALTER TABLE "users" DISABLE TRIGGER ALL;ALTER TABLE "rooms" DISABLE TRIGGER ALL;ALTER TABLE "reservations" DISABLE TRIGGER ALL[0m
+  [1m[36mFixtures Load (4.9ms)[0m  [1m[31mDELETE FROM "organizations";
+DELETE FROM "plans";
+DELETE FROM "users";
+INSERT INTO "organizations" ("id", "name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES (373481379, 'Demo Org', 'demo', NULL, TRUE, 221168073, '2026-02-28 13:13:53.223159', '2026-02-28 13:13:53.223159');
+INSERT INTO "plans" ("id", "name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES (221168073, 'free', 0, 2, NULL, '2026-02-28 13:13:53.344637', '2026-02-28 13:13:53.344637'), (276395349, 'basic', 29000, 10, 'price_basic_test', '2026-02-28 13:13:53.344637', '2026-02-28 13:13:53.344637');
+INSERT INTO "users" ("id", "email", "encrypted_password", "created_at", "updated_at", "organization_id", "role") VALUES (135138680, 'admin@example.com', '$2a$04$OySjRHUxt/lfxKWVFxI6futg245TCMxoJjLYtW/Nv0OarKL9Q4K1u', '2026-02-28 13:13:53.346040', '2026-02-28 13:13:53.346040', 373481379, 1)[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL;ALTER TABLE "organizations" ENABLE TRIGGER ALL;ALTER TABLE "subscriptions" ENABLE TRIGGER ALL;ALTER TABLE "plans" ENABLE TRIGGER ALL;ALTER TABLE "users" ENABLE TRIGGER ALL;ALTER TABLE "rooms" ENABLE TRIGGER ALL;ALTER TABLE "reservations" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (13.0ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_catalog.pg_constraint SET convalidated=false WHERE conname = ''%1$I'' AND connamespace::regnamespace = ''%2$I''::regnamespace; ALTER TABLE %2$I.%3$I VALIDATE CONSTRAINT %1$I;',
+    constraint_name,
+    table_schema,
+    table_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-------------------------------------------------------------------------
+WebhooksControllerTest: test_invalid_stripe_signature_returns_bad_request
+-------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:13:53 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+Completed 400 Bad Request in 29ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+--------------------------------------------------------------------------------------------------
+WebhooksControllerTest: test_checkout.session.completed_updates_organization_plan_and_subscription
+--------------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "free_test"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.4ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "free_test"], ["price_cents", 0], ["room_limit", 2], ["stripe_price_id", nil], ["created_at", "2026-02-28 13:13:53.708882"], ["updated_at", "2026-02-28 13:13:53.708882"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "basic_test"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.2ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "basic_test"], ["price_cents", 29000], ["room_limit", 10], ["stripe_price_id", "price_basic_test"], ["created_at", "2026-02-28 13:13:53.711654"], ["updated_at", "2026-02-28 13:13:53.711654"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "organizations" WHERE "organizations"."subdomain" = $1 LIMIT $2[0m  [["subdomain", "webhook-org"], ["LIMIT", 1]]
+  [1m[36mOrganization Create (0.4ms)[0m  [1m[32mINSERT INTO "organizations" ("name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["name", "Webhook Org"], ["subdomain", "webhook-org"], ["stripe_customer_id", nil], ["active", true], ["plan_id", 276395350], ["created_at", "2026-02-28 13:13:53.721060"], ["updated_at", "2026-02-28 13:13:53.721060"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:13:53 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+  [1m[36mOrganization Load (0.4ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481380], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.3ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 276395351], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Update (0.5ms)[0m  [1m[33mUPDATE "organizations" SET "plan_id" = $1, "updated_at" = $2 WHERE "organizations"."id" = $3[0m  [["plan_id", 276395351], ["updated_at", "2026-02-28 13:13:53.731725"], ["id", 373481380]]
+  [1m[36mSubscription Load (0.9ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481380], ["LIMIT", 1]]
+  [1m[36mSubscription Create (0.7ms)[0m  [1m[32mINSERT INTO "subscriptions" ("organization_id", "plan_id", "stripe_subscription_id", "status", "current_period_end", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["organization_id", 373481380], ["plan_id", 276395351], ["stripe_subscription_id", "sub_123"], ["status", "active"], ["current_period_end", "2026-03-07 13:13:53"], ["created_at", "2026-02-28 13:13:53.746199"], ["updated_at", "2026-02-28 13:13:53.746199"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 26ms (Views: 0.2ms | ActiveRecord: 6.7ms (5 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mOrganization Load (0.3ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481380], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481380], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.3ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------------------------------
+WebhooksControllerTest: test_customer.subscription.updated_synchronizes_plan_from_stripe_price
+----------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "free_test2"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.2ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "free_test2"], ["price_cents", 0], ["room_limit", 2], ["stripe_price_id", nil], ["created_at", "2026-02-28 13:13:53.756230"], ["updated_at", "2026-02-28 13:13:53.756230"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "pro_test2"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.3ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "pro_test2"], ["price_cents", 99000], ["room_limit", nil], ["stripe_price_id", "price_pro_test"], ["created_at", "2026-02-28 13:13:53.758243"], ["updated_at", "2026-02-28 13:13:53.758243"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "organizations" WHERE "organizations"."subdomain" = $1 LIMIT $2[0m  [["subdomain", "webhook-org-2"], ["LIMIT", 1]]
+  [1m[36mOrganization Create (0.2ms)[0m  [1m[32mINSERT INTO "organizations" ("name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["name", "Webhook Org 2"], ["subdomain", "webhook-org-2"], ["stripe_customer_id", nil], ["active", true], ["plan_id", 276395352], ["created_at", "2026-02-28 13:13:53.760579"], ["updated_at", "2026-02-28 13:13:53.760579"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSubscription Create (0.6ms)[0m  [1m[32mINSERT INTO "subscriptions" ("organization_id", "plan_id", "stripe_subscription_id", "status", "current_period_end", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["organization_id", 373481381], ["plan_id", 276395352], ["stripe_subscription_id", "sub_update_123"], ["status", "active"], ["current_period_end", "2026-03-28 13:13:53.761607"], ["created_at", "2026-02-28 13:13:53.762153"], ["updated_at", "2026-02-28 13:13:53.762153"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481381], ["LIMIT", 1]]
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:13:53 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+  [1m[36mSubscription Load (0.4ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."stripe_subscription_id" = $1 LIMIT $2[0m  [["stripe_subscription_id", "sub_update_123"], ["LIMIT", 1]]
+  [1m[36mOrganization Load (0.2ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481381], ["LIMIT", 1]]
+  [1m[36mCACHE Subscription Load (0.0ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."stripe_subscription_id" = $1 LIMIT $2[0m  [["stripe_subscription_id", "sub_update_123"], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.3ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."stripe_price_id" = $1 LIMIT $2[0m  [["stripe_price_id", "price_pro_test"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSubscription Update (0.6ms)[0m  [1m[33mUPDATE "subscriptions" SET "plan_id" = $1, "current_period_end" = $2, "updated_at" = $3 WHERE "subscriptions"."id" = $4[0m  [["plan_id", 276395353], ["current_period_end", "2026-04-28 13:13:53"], ["updated_at", "2026-02-28 13:13:53.768352"], ["id", 12]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mOrganization Load (0.2ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481381], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Update (0.5ms)[0m  [1m[33mUPDATE "organizations" SET "plan_id" = $1, "updated_at" = $2 WHERE "organizations"."id" = $3[0m  [["plan_id", 276395353], ["updated_at", "2026-02-28 13:13:53.770546"], ["id", 373481381]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 2.6ms (7 queries, 1 cached) | GC: 0.0ms)
+  [1m[36mOrganization Load (0.3ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481381], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.3ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481381], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.3ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."id" = $1 LIMIT $2[0m  [["id", 12], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------------------------
+WebhooksControllerTest: test_webhook_endpoint_accepts_request_without_browser_user_agent
+----------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+Started POST "/webhooks/stripe" for 127.0.0.1 at 2026-02-28 22:13:53 +0900
+Processing by WebhooksController#stripe as HTML
+  Parameters: {"webhook" => {}}
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+------------------------------------------------------------------------
+SuperAdmin::PlansControllerTest: test_creates_plan_with_valid_basic_auth
+------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mPlan Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "plans"[0m
+Started POST "/super_admin/plans" for 127.0.0.1 at 2026-02-28 22:13:53 +0900
+Processing by SuperAdmin::PlansController#create as HTML
+  Parameters: {"plan" => {"name" => "enterprise", "price_cents" => "199000", "room_limit" => nil, "stripe_price_id" => "price_enterprise_test"}}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mPlan Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "plans" WHERE "plans"."name" = $1 LIMIT $2[0m  [["name", "enterprise"], ["LIMIT", 1]]
+  [1m[36mPlan Create (0.2ms)[0m  [1m[32mINSERT INTO "plans" ("name", "price_cents", "room_limit", "stripe_price_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "enterprise"], ["price_cents", 199000], ["room_limit", nil], ["stripe_price_id", "price_enterprise_test"], ["created_at", "2026-02-28 13:13:53.847361"], ["updated_at", "2026-02-28 13:13:53.847361"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/super_admin/plans/276395354
+Completed 302 Found in 4ms (ActiveRecord: 1.2ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mPlan Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "plans"[0m
+  [1m[36mPlan Load (0.3ms)[0m  [1m[34mSELECT "plans".* FROM "plans" ORDER BY "plans"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------------------
+SuperAdmin::PlansControllerTest: test_prevents_deleting_plan_used_by_organization
+---------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mPlan Load (0.3ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 221168073], ["LIMIT", 1]]
+  [1m[36mPlan Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "plans"[0m
+Started DELETE "/super_admin/plans/221168073" for 127.0.0.1 at 2026-02-28 22:13:53 +0900
+Processing by SuperAdmin::PlansController#destroy as HTML
+  Parameters: {"id" => "221168073"}
+  [1m[36mPlan Load (0.2ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 221168073], ["LIMIT", 1]]
+  [1m[36mOrganization Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "organizations" WHERE "organizations"."plan_id" = $1 LIMIT $2[0m  [["plan_id", 221168073], ["LIMIT", 1]]
+Redirected to http://www.example.com/super_admin/plans
+Completed 302 Found in 26ms (ActiveRecord: 0.6ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mCACHE Plan Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "plans"[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------------------------------------
+RegistrationsControllerTest: test_subdomain_availability_returns_unavailable_for_existing_subdomain
+---------------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+Started GET "/registrations/subdomain_availability?subdomain=demo" for 127.0.0.1 at 2026-02-28 22:13:53 +0900
+Processing by RegistrationsController#subdomain_availability as HTML
+  Parameters: {"subdomain" => "demo"}
+  [1m[36mOrganization Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "organizations" WHERE "organizations"."subdomain" = $1 LIMIT $2[0m  [["subdomain", "demo"], ["LIMIT", 1]]
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-------------------------------------------------------------------------------------------
+RegistrationsControllerTest: test_subdomain_availability_normalizes_and_validates_candidate
+-------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+Started GET "/registrations/subdomain_availability?subdomain=++New-Hospital++" for 127.0.0.1 at 2026-02-28 22:13:53 +0900
+Processing by RegistrationsController#subdomain_availability as HTML
+  Parameters: {"subdomain" => "  New-Hospital  "}
+  [1m[36mOrganization Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "organizations" WHERE "organizations"."subdomain" = $1 LIMIT $2[0m  [["subdomain", "new-hospital"], ["LIMIT", 1]]
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-------------------------------------------------------------------------------
+RegistrationsControllerTest: test_subdomain_availability_rejects_invalid_format
+-------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+Started GET "/registrations/subdomain_availability?subdomain=bad_domain%21" for 127.0.0.1 at 2026-02-28 22:13:53 +0900
+Processing by RegistrationsController#subdomain_availability as HTML
+  Parameters: {"subdomain" => "bad_domain!"}
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------
+SuperAdmin::OrganizationsControllerTest: test_requires_http_basic_auth
+----------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+Started GET "/super_admin/organizations" for 127.0.0.1 at 2026-02-28 22:13:53 +0900
+Processing by SuperAdmin::OrganizationsController#index as HTML
+Filter chain halted as :authenticate_super_admin! rendered or redirected
+Completed 401 Unauthorized in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------------------------
+SuperAdmin::OrganizationsControllerTest: test_creates_organization_with_valid_basic_auth
+----------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mPlan Load (0.4ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 221168073], ["LIMIT", 1]]
+  [1m[36mOrganization Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "organizations"[0m
+Started POST "/super_admin/organizations" for 127.0.0.1 at 2026-02-28 22:13:53 +0900
+Processing by SuperAdmin::OrganizationsController#create as HTML
+  Parameters: {"organization" => {"name" => "New Org", "subdomain" => "new-org", "active" => "true", "plan_id" => "221168073"}}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "organizations" WHERE "organizations"."subdomain" = $1 LIMIT $2[0m  [["subdomain", "new-org"], ["LIMIT", 1]]
+  [1m[36mOrganization Create (0.4ms)[0m  [1m[32mINSERT INTO "organizations" ("name", "subdomain", "stripe_customer_id", "active", "plan_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["name", "New Org"], ["subdomain", "new-org"], ["stripe_customer_id", nil], ["active", true], ["plan_id", 221168073], ["created_at", "2026-02-28 13:13:53.908985"], ["updated_at", "2026-02-28 13:13:53.908985"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/super_admin/organizations/373481382
+Completed 302 Found in 4ms (ActiveRecord: 1.6ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mOrganization Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "organizations"[0m
+  [1m[36mOrganization Load (0.3ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" ORDER BY "organizations"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------------------------
+SuperAdmin::OrganizationsControllerTest: test_lists_organizations_with_valid_basic_auth
+---------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+Started GET "/super_admin/organizations" for 127.0.0.1 at 2026-02-28 22:13:53 +0900
+Processing by SuperAdmin::OrganizationsController#index as HTML
+  Rendering layout layouts/super_admin.html.erb
+  Rendering super_admin/organizations/index.html.erb within layouts/super_admin
+  [1m[36mOrganization Load (0.7ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" ORDER BY "organizations"."created_at" DESC[0m
+  [1m[36mPlan Load (0.6ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1[0m  [["id", 221168073]]
+  [1m[36mSubscription Load (0.4ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1[0m  [["organization_id", 373481379]]
+  Rendered super_admin/organizations/index.html.erb within layouts/super_admin (Duration: 75.5ms | GC: 0.0ms)
+  Rendered layout layouts/super_admin.html.erb (Duration: 92.4ms | GC: 0.0ms)
+Completed 200 OK in 110ms (Views: 96.2ms | ActiveRecord: 1.7ms (3 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-------------------------------------------------------------------
+CorsMiddlewareTest: test_does_not_add_headers_for_disallowed_origin
+-------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------
+CorsMiddlewareTest: test_adds_cors_headers_for_explicit_allowed_origin
+----------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------------
+CorsMiddlewareTest: test_allows_app_subdomain_origin_when_app_domain_matches
+----------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------
+CorsMiddlewareTest: test_handles_preflight_request_for_allowed_origin
+---------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------------------------------------------
+Admin::SubscriptionsControllerTest: test_show_reconciles_checkout_session_when_session_id_is_provided
+-----------------------------------------------------------------------------------------------------
+[dotenv] Saved a snapshot of [32mENV[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 135138680], ["LIMIT", 1]]
+  [1m[36mOrganization Load (0.3ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481379], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.2ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 276395349], ["LIMIT", 1]]
+Started GET "/admin/subscription?session_id=cs_test_123" for 127.0.0.1 at 2026-02-28 22:13:54 +0900
+Processing by Admin::SubscriptionsController#show as HTML
+  Parameters: {"session_id" => "cs_test_123"}
+  [1m[36mOrganization Load (0.5ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."subdomain" = $1 AND "organizations"."active" = $2 LIMIT $3[0m  [["subdomain", "demo"], ["active", true], ["LIMIT", 1]]
+  [1m[36mPlan Load (0.4ms)[0m  [1m[34mSELECT "plans".* FROM "plans" WHERE "plans"."id" = $1 LIMIT $2[0m  [["id", 276395349], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrganization Update (0.7ms)[0m  [1m[33mUPDATE "organizations" SET "plan_id" = $1, "updated_at" = $2 WHERE "organizations"."id" = $3[0m  [["plan_id", 276395349], ["updated_at", "2026-02-28 13:13:54.054152"], ["id", 373481379]]
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481379], ["LIMIT", 1]]
+  [1m[36mSubscription Create (0.4ms)[0m  [1m[32mINSERT INTO "subscriptions" ("organization_id", "plan_id", "stripe_subscription_id", "status", "current_period_end", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["organization_id", 373481379], ["plan_id", 276395349], ["stripe_subscription_id", "sub_reconcile_123"], ["status", "active"], ["current_period_end", "2026-03-28 13:13:54"], ["created_at", "2026-02-28 13:13:54.056860"], ["updated_at", "2026-02-28 13:13:54.056860"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  Rendering layout layouts/admin.html.erb
+  Rendering admin/subscriptions/show.html.erb within layouts/admin
+  [1m[36mPlan Load (0.6ms)[0m  [1m[34mSELECT "plans".* FROM "plans" ORDER BY "plans"."price_cents" ASC[0m
+  Rendered admin/subscriptions/show.html.erb within layouts/admin (Duration: 5.5ms | GC: 0.0ms)
+  Rendered layout layouts/admin.html.erb (Duration: 7.2ms | GC: 0.0ms)
+Completed 200 OK in 22ms (Views: 8.1ms | ActiveRecord: 3.2ms (6 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mOrganization Load (0.2ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = $1 LIMIT $2[0m  [["id", 373481379], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.3ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."organization_id" = $1 LIMIT $2[0m  [["organization_id", 373481379], ["LIMIT", 1]]
+  [1m[36mSubscription Load (0.2ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."id" = $1 LIMIT $2[0m  [["id", 13], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m

@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(DB_PASSWORD=\"dkrehafkr1!\" rails db:drop db:create db:migrate)",
+      "Bash(DB_PASSWORD=\"dkrehafkr1!\" rails db:seed)",
+      "Bash(DB_PASSWORD=\"dkrehafkr1!\" rails routes)",
+      "Bash(DB_PASSWORD=\"dkrehafkr1!\" rails runner \"puts ''OK: '' + Organization.first.name\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/up)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://demo.localhost:3000/)",
+      "Bash(rails generate devise:views)",
+      "Bash(DB_PASSWORD=\"dkrehafkr1!\" rails runner \":*)",
+      "Bash(DB_PASSWORD=\"dkrehafkr1!\" rails runner \"puts ''Models OK''; puts User.count.to_s + '' users''; puts Organization.count.to_s + '' orgs''; puts Room.count.to_s + '' rooms''; puts Plan.count.to_s + '' plans''\")",
+      "Bash(DB_PASSWORD=\"dkrehafkr1!\" rails server -p 3000 -d)",
+      "Bash(curl -s -o /dev/null -w \"Landing: %{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"Tenant root: %{http_code}\\\\n\" http://demo.localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"Reservations: %{http_code}\\\\n\" http://demo.localhost:3000/reservations)",
+      "Bash(curl -s -o /dev/null -w \"Admin \\(unauth\\): %{http_code}\\\\n\" http://demo.localhost:3000/admin)"
+    ]
+  }
+}

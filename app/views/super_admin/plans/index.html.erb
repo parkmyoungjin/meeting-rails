@@ -1,0 +1,31 @@
+<div class="flex items-center justify-between mb-4">
+  <h2 class="text-xl font-semibold text-gray-900">플랜 관리</h2>
+  <%= link_to "새 플랜", new_super_admin_plan_path, class: "px-3 py-2 rounded bg-blue-600 text-white text-sm hover:bg-blue-700" %>
+</div>
+
+<div class="overflow-x-auto rounded-xl border border-gray-200 bg-white">
+  <table class="min-w-full text-sm">
+    <thead class="bg-gray-50 text-gray-600">
+      <tr>
+        <th class="px-4 py-3 text-left">이름</th>
+        <th class="px-4 py-3 text-left">가격(cent)</th>
+        <th class="px-4 py-3 text-left">회의실 한도</th>
+        <th class="px-4 py-3 text-left">Stripe Price ID</th>
+        <th class="px-4 py-3 text-left"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @plans.each do |plan| %>
+        <tr class="border-t border-gray-100">
+          <td class="px-4 py-3 font-medium text-gray-900"><%= plan.name %></td>
+          <td class="px-4 py-3 text-gray-600"><%= plan.price_cents %></td>
+          <td class="px-4 py-3 text-gray-600"><%= plan.room_limit || "무제한" %></td>
+          <td class="px-4 py-3 text-gray-600"><%= plan.stripe_price_id.presence || "-" %></td>
+          <td class="px-4 py-3 text-right">
+            <%= link_to "상세", super_admin_plan_path(plan), class: "text-blue-600 hover:underline" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

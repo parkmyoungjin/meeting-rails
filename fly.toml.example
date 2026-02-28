@@ -1,0 +1,31 @@
+# fly.toml example for meeting-rails
+# Copy to fly.toml and adjust values before `fly launch` / `fly deploy`.
+
+app = "meeting-rails"
+primary_region = "nrt"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  RAILS_ENV = "production"
+  FORCE_SSL = "true"
+  CORS_ENABLED = "true"
+  # Set these with `fly secrets set` in production:
+  # APP_DOMAIN=myapp.com
+  # CORS_ALLOWED_ORIGINS=https://app.myapp.com,https://admin.myapp.com
+
+[http_service]
+  internal_port = 80
+  force_https = true
+  auto_stop_machines = "suspend"
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+  [http_service.checks]
+    grace_period = "30s"
+    interval = "15s"
+    method = "get"
+    timeout = "5s"
+    path = "/up"

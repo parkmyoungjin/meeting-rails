@@ -1,0 +1,12 @@
+
+(process:22408): VIPS-WARNING **: 21:40:21.654: unable to load "C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-heif.dll" -- 'C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-heif.dll': 지정된 모듈을 찾을 수 없습니다.
+
+(process:22408): VIPS-WARNING **: 21:40:21.682: unable to load "C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-jxl.dll" -- 'C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-jxl.dll': 지정된 모듈을 찾을 수 없습니다.
+
+(process:22408): VIPS-WARNING **: 21:40:21.709: unable to load "C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-magick.dll" -- 'C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-magick.dll': 지정된 모듈을 찾을 수 없습니다.
+
+(process:22408): VIPS-WARNING **: 21:40:21.733: unable to load "C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-openslide.dll" -- 'C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-openslide.dll': 지정된 모듈을 찾을 수 없습니다.
+
+(process:22408): VIPS-WARNING **: 21:40:21.759: unable to load "C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-poppler.dll" -- 'C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-poppler.dll': 지정된 모듈을 찾을 수 없습니다.
+C:/Ruby34-x64/lib/ruby/3.4.0/win32/registry.rb:2: warning: C:/Ruby34-x64/lib/ruby/3.4.0/fiddle/import.rb is found in fiddle, which will no longer be part of the default gems starting from Ruby 4.0.0.
+You can add fiddle to your Gemfile or gemspec to silence this warning.

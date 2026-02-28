@@ -1,0 +1,46 @@
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">예약 현황</h1>
+  <%= form_with url: admin_reservations_path, method: :get, class: "flex items-center gap-2" do |f| %>
+    <%= f.date_field :date, value: @date, class: "border border-gray-300 rounded px-3 py-1.5 text-sm" %>
+    <%= f.submit "조회", class: "bg-gray-600 text-white px-3 py-1.5 rounded text-sm hover:bg-gray-700 cursor-pointer" %>
+  <% end %>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 text-gray-500 text-left">
+      <tr>
+        <th class="px-4 py-3">시간</th>
+        <th class="px-4 py-3">층 / 회의실</th>
+        <th class="px-4 py-3">예약자</th>
+        <th class="px-4 py-3">목적</th>
+        <th class="px-4 py-3">작업</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y">
+      <% @reservations.each do |r| %>
+        <tr>
+          <td class="px-4 py-3 font-mono text-xs">
+            <%= r.start_time.strftime("%H:%M") %> ~ <%= r.end_time.strftime("%H:%M") %>
+          </td>
+          <td class="px-4 py-3">
+            <span class="text-gray-400 text-xs"><%= r.room.floor %></span>
+            <span class="ml-1 font-medium"><%= r.room.name %></span>
+          </td>
+          <td class="px-4 py-3"><%= r.organizer %></td>
+          <td class="px-4 py-3 text-gray-500"><%= r.purpose %></td>
+          <td class="px-4 py-3">
+            <%= button_to "삭제", admin_reservation_path(r), method: :delete,
+                class: "text-red-500 text-xs hover:underline",
+                data: { turbo_confirm: "예약을 삭제하시겠습니까?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @reservations.empty? %>
+    <div class="text-center py-10 text-gray-400 text-sm">
+      <%= @date.strftime("%Y년 %m월 %d일") %> 예약이 없습니다.
+    </div>
+  <% end %>
+</div>

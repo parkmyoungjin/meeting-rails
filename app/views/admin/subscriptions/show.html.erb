@@ -1,0 +1,108 @@
+<h1 class="text-2xl font-bold text-gray-900 mb-6">구독 관리</h1>
+
+<!-- 현재 플랜 -->
+<div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+  <h2 class="font-semibold text-gray-900 mb-3">현재 플랜</h2>
+  <% if @current_plan %>
+    <div class="flex items-center gap-4">
+      <span class="text-2xl font-bold text-blue-600 capitalize"><%= @current_plan.name %></span>
+      <% if @subscription&.active? %>
+        <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">활성</span>
+      <% elsif @subscription %>
+        <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full"><%= @subscription.status %></span>
+      <% end %>
+    </div>
+    <p class="text-sm text-gray-500 mt-1">
+      회의실 한도: <%= @current_plan.room_limit ? "#{@current_plan.room_limit}개" : "무제한" %>
+      &nbsp;|&nbsp;
+      월 구독료: <%= @current_plan.price_cents == 0 ? "무료" : "#{number_with_delimiter(@current_plan.price_cents)}원" %>
+    </p>
+    <% if @subscription&.current_period_end && @current_plan.price_cents > 0 %>
+      <p class="text-xs text-gray-400 mt-1">
+        다음 갱신: <%= @subscription.current_period_end.strftime("%Y년 %m월 %d일") %>
+      </p>
+    <% end %>
+  <% else %>
+    <p class="text-gray-400">플랜이 설정되지 않았습니다.</p>
+  <% end %>
+</div>
+
+<!-- 플랜 선택 -->
+<div class="bg-white rounded-xl shadow-sm p-6">
+  <h2 class="font-semibold text-gray-900 mb-4">플랜 변경</h2>
+  <div class="grid grid-cols-3 gap-4">
+    <% @plans.each do |plan| %>
+      <div class="border rounded-xl p-4 <%= @current_plan&.id == plan.id ? 'border-blue-500 bg-blue-50' : 'border-gray-200' %>">
+        <h3 class="font-bold capitalize text-lg"><%= plan.name %></h3>
+        <p class="text-2xl font-bold text-gray-900 mt-1">
+          <%= plan.price_cents == 0 ? "무료" : "#{number_with_delimiter(plan.price_cents)}원" %>
+          <span class="text-sm font-normal text-gray-400">/월</span>
+        </p>
+        <ul class="text-sm text-gray-600 mt-3 space-y-1">
+          <li>회의실 <%= plan.room_limit ? "최대 #{plan.room_limit}개" : "무제한" %></li>
+        </ul>
+
+        <% if @current_plan&.id == plan.id %>
+          <span class="mt-4 block text-center text-xs text-blue-600 font-medium">현재 플랜</span>
+        <% else %>
+          <%= button_to plan.name == "free" ? "다운그레이드" : "업그레이드",
+              admin_subscription_path,
+              method: :post,
+              params: { plan_id: plan.id },
+              class: "mt-4 w-full #{plan.price_cents == 0 ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-blue-600 text-white hover:bg-blue-700'} py-2 rounded text-sm font-medium cursor-pointer",
+              data: { turbo_confirm: "#{plan.name} 플랜으로 변경하시겠습니까?" } %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @subscription&.stripe_subscription_id.present? %>
+    <div class="mt-6 pt-4 border-t">
+      <%= button_to "구독 취소", admin_subscription_path, method: :delete,
+          class: "text-red-500 text-sm hover:underline",
+          data: { turbo_confirm: "구독을 취소하면 다음 결제일 이후 서비스가 제한됩니다. 계속하시겠습니까?" } %>
+    </div>
+  <% end %>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm p-6 mt-6">
+  <h2 class="font-semibold text-gray-900 mb-4">결제 이력</h2>
+  <% if @billing_error.present? %>
+    <p class="text-sm text-red-600"><%= @billing_error %></p>
+  <% elsif @invoices.blank? %>
+    <p class="text-sm text-gray-500">결제 이력이 없습니다.</p>
+  <% else %>
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm">
+        <thead class="text-left text-gray-500 border-b">
+          <tr>
+            <th class="py-2 pr-4">일자</th>
+            <th class="py-2 pr-4">금액</th>
+            <th class="py-2 pr-4">상태</th>
+            <th class="py-2">영수증</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @invoices.each do |invoice| %>
+            <tr class="border-b last:border-0">
+              <td class="py-2 pr-4 text-gray-700"><%= Time.zone.at(invoice.created).strftime("%Y-%m-%d") %></td>
+              <td class="py-2 pr-4 text-gray-900 font-medium"><%= number_with_delimiter((invoice.amount_paid || 0) / 100) %>원</td>
+              <td class="py-2 pr-4">
+                <span class="<%= invoice.status == 'paid' ? 'text-green-600' : 'text-yellow-600' %>">
+                  <%= invoice.status %>
+                </span>
+              </td>
+              <td class="py-2">
+                <% if invoice.hosted_invoice_url.present? %>
+                  <%= link_to "보기", invoice.hosted_invoice_url, target: "_blank", rel: "noopener", class: "text-blue-600 hover:underline" %>
+                <% else %>
+                  <span class="text-gray-400">-</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>

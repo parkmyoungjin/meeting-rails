@@ -1,0 +1,33 @@
+<div class="flex items-center justify-between mb-4">
+  <h2 class="text-xl font-semibold text-gray-900">조직 관리</h2>
+  <%= link_to "새 조직", new_super_admin_organization_path, class: "px-3 py-2 rounded bg-blue-600 text-white text-sm hover:bg-blue-700" %>
+</div>
+
+<div class="overflow-x-auto rounded-xl border border-gray-200 bg-white">
+  <table class="min-w-full text-sm">
+    <thead class="bg-gray-50 text-gray-600">
+      <tr>
+        <th class="px-4 py-3 text-left">이름</th>
+        <th class="px-4 py-3 text-left">서브도메인</th>
+        <th class="px-4 py-3 text-left">플랜</th>
+        <th class="px-4 py-3 text-left">구독 상태</th>
+        <th class="px-4 py-3 text-left">활성</th>
+        <th class="px-4 py-3 text-left"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @organizations.each do |organization| %>
+        <tr class="border-t border-gray-100">
+          <td class="px-4 py-3 font-medium text-gray-900"><%= organization.name %></td>
+          <td class="px-4 py-3 text-gray-600"><%= organization.subdomain %></td>
+          <td class="px-4 py-3 text-gray-600"><%= organization.plan&.name || "-" %></td>
+          <td class="px-4 py-3 text-gray-600"><%= organization.subscription&.status || "-" %></td>
+          <td class="px-4 py-3 text-gray-600"><%= organization.active? ? "Y" : "N" %></td>
+          <td class="px-4 py-3 text-right">
+            <%= link_to "상세", super_admin_organization_path(organization), class: "text-blue-600 hover:underline" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

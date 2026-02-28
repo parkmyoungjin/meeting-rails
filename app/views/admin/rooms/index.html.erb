@@ -1,0 +1,46 @@
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">회의실 관리</h1>
+  <%= link_to "회의실 추가", new_admin_room_path,
+      class: "bg-blue-600 text-white px-4 py-2 rounded font-medium hover:bg-blue-700 text-sm" %>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 text-gray-500 text-left">
+      <tr>
+        <th class="px-4 py-3">층</th>
+        <th class="px-4 py-3">이름</th>
+        <th class="px-4 py-3">정원</th>
+        <th class="px-4 py-3">상태</th>
+        <th class="px-4 py-3">작업</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y">
+      <% @rooms.each do |room| %>
+        <tr class="<%= 'opacity-50' unless room.active? %>">
+          <td class="px-4 py-3"><%= room.floor %></td>
+          <td class="px-4 py-3 font-medium"><%= room.name %></td>
+          <td class="px-4 py-3"><%= room.capacity %>명</td>
+          <td class="px-4 py-3">
+            <% if room.active? %>
+              <span class="text-green-600 bg-green-50 px-2 py-0.5 rounded-full text-xs">활성</span>
+            <% else %>
+              <span class="text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full text-xs">비활성</span>
+            <% end %>
+          </td>
+          <td class="px-4 py-3 flex gap-2">
+            <%= link_to "수정", edit_admin_room_path(room), class: "text-blue-600 hover:underline" %>
+            <%= button_to "비활성화", admin_room_path(room), method: :delete,
+                class: "text-red-500 hover:underline",
+                data: { confirm: "비활성화 하시겠습니까?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @rooms.empty? %>
+    <div class="text-center py-10 text-gray-400">
+      아직 회의실이 없습니다. <%= link_to "첫 번째 회의실을 추가", new_admin_room_path, class: "text-blue-600" %>하세요.
+    </div>
+  <% end %>
+</div>

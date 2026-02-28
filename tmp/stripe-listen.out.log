@@ -1,0 +1,2 @@
+2026-02-28 21:42:33   --> checkout.session.completed [evt_1T5mqrRz6rKcQpf6LMrNrhSe]
+2026-02-28 21:42:34  <--  [200] POST http://127.0.0.1:3000/webhooks/stripe [evt_1T5mqrRz6rKcQpf6LMrNrhSe]

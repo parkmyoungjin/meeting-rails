@@ -1,0 +1,11 @@
+free:
+  name: free
+  price_cents: 0
+  room_limit: 2
+  stripe_price_id:
+
+basic:
+  name: basic
+  price_cents: 29000
+  room_limit: 10
+  stripe_price_id: price_basic_test
