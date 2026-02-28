@@ -87,6 +87,9 @@ Rails.application.configure do
     config.hosts << /.*\.#{escaped_domain}/
   end
 
+  render_hostname = ENV["RENDER_EXTERNAL_HOSTNAME"].to_s
+  config.hosts << render_hostname if render_hostname.present?
+
   # Skip DNS rebinding protection for the default health check endpoint.
   config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end

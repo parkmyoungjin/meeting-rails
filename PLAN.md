@@ -347,6 +347,9 @@ post '/webhooks/stripe', to: 'webhooks#stripe'
     - `config/database.yml` production 연결을 `DATABASE_URL` 우선 사용으로 변경
     - `cache/queue/cable` DB도 `*_DATABASE_URL` 또는 `DATABASE_URL` fallback 사용
     - `render.yaml`에서 DB 자동 연결 의존 제거 및 `DATABASE_URL` 수동 주입 방식으로 정리
+  - Render 접속 403 대응:
+    - `production.rb` Host Authorization에 `RENDER_EXTERNAL_HOSTNAME` 자동 허용 추가
+    - Render 기본 도메인(`*.onrender.com`) 접속 시 403 차단 이슈 해소
 
 ---
 
